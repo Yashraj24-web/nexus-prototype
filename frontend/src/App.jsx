@@ -508,7 +508,9 @@ export default function App() {
                             <div className="pc-body">
                               <div className="pc-top">
                                 <h3>{profile.name}</h3>
-                                <span className="pc-score">Relevance {profile.relevance_score}</span>
+                                <span className="pc-score" title="Search Relevance Match Score (Not a security risk)">
+                                  🎯 Match Score: {profile.relevance_score} pts
+                                </span>
                               </div>
                               <p className="pc-role">{profile.role}</p>
                               <p className="pc-city">📍 {profile.city}</p>

@@ -214,6 +214,7 @@ body {
 .pc-score {
   background: #1e1b4b; color: #a5b4fc; padding: .15rem .55rem;
   border-radius: 5px; font-size: .7rem; font-weight: 700;
+  border: 1px solid #3730a3;
 }
 .pc-role { font-size: .82rem; color: #818cf8; margin-bottom: .15rem; font-weight: 600; }
 .pc-city { font-size: .78rem; color: #71717a; margin-bottom: .3rem; }
