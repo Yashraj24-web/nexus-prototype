@@ -117,6 +117,9 @@ ABUSE_WINDOW_SECONDS = 60
 ABUSE_THRESHOLD_SUSPICIOUS = 4  # 4 suspicious requests within 60s triggers block
 
 
+from blockchain import threat_ledger
+
+
 def log_security_event(
     request_id: str,
     raw_query: str,
@@ -128,7 +131,7 @@ def log_security_event(
     checks: Dict[str, str],
     client_ip: str = "127.0.0.1",
 ) -> Dict[str, Any]:
-    """Records a safe security event in the audit log (NO sensitive PII stored)."""
+    """Records a safe security event in the audit log and mines it into the Blockchain Threat Ledger."""
     safe_snippet = (raw_query[:100] + "...") if len(raw_query) > 100 else raw_query
     
     event = {
@@ -148,6 +151,13 @@ def log_security_event(
     SECURITY_AUDIT_LOGS.insert(0, event)
     if len(SECURITY_AUDIT_LOGS) > MAX_AUDIT_LOGS:
         SECURITY_AUDIT_LOGS.pop()
+
+    # Automatically anchor security decisions into the Blockchain Threat Ledger
+    try:
+        if decision == "BLOCKED" or threat_type != ThreatType.NONE:
+            threat_ledger.add_security_block(threat_type, event)
+    except Exception:
+        pass
         
     return event
 

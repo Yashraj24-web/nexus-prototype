@@ -48,6 +48,8 @@ from chat_service import (
     list_conversations,
 )
 from data import DEVELOPER_PROFILES, PUBLIC_FIELDS
+from blockchain import threat_ledger
+from quantum_crypto import perform_hybrid_pqxdh_handshake
 
 app = FastAPI(
     title="NEXUS Secure Search API",
@@ -225,6 +227,45 @@ def api_search(
         "result_count": len(results),
         "user_role": user_role.value,
     }
+
+
+# ── Blockchain Threat Ledger Endpoints ────────────────────────
+
+@app.get("/api/blockchain/blocks")
+def api_blockchain_blocks():
+    """Returns the immutable blockchain audit chain and verification status."""
+    return threat_ledger.get_summary()
+
+
+@app.post("/api/blockchain/tamper")
+def api_blockchain_tamper():
+    """
+    DEMO MOMENT: Simulates a rogue admin tampering with a historical block.
+    Demonstrates instant cryptographic chain failure.
+    """
+    return threat_ledger.simulate_tamper(1)
+
+
+@app.post("/api/blockchain/restore")
+def api_blockchain_restore():
+    """Restores the blockchain to pristine verified state."""
+    return threat_ledger.restore_chain()
+
+
+# ── Quantum Cryptography Endpoints ────────────────────────────
+
+class QuantumHandshakeRequest(BaseModel):
+    participant_names: Optional[List[str]] = Field(default_factory=lambda: ["You", "Developer"])
+
+
+@app.post("/api/quantum/handshake")
+def api_quantum_handshake(req: QuantumHandshakeRequest):
+    """
+    Performs a simulated NIST ML-KEM-512 (CRYSTALS-Kyber) + Curve25519
+    Hybrid Post-Quantum Extended Diffie-Hellman (PQXDH) Handshake.
+    """
+    telemetry = perform_hybrid_pqxdh_handshake(req.participant_names)
+    return telemetry
 
 
 # ── Profile Endpoint ──────────────────────────────────────────

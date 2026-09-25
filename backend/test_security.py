@@ -212,6 +212,51 @@ def run_tests():
         "fake.dev" not in str(log) and "+91-" not in str(log) for log in logs
     ))
 
+    # ── 12. Blockchain Threat Ledger & Tamper Detection ──────────
+    print("\n--- Section 12: Blockchain Threat Ledger & Tamper Proof ---")
+    from blockchain import ThreatBlockchain
+    test_bc = ThreatBlockchain(difficulty=2)
+    test("Blockchain genesis block created", len(test_bc.chain) == 1)
+    test("Genesis block hash starts with difficulty zeros", test_bc.chain[0].hash.startswith("00"))
+    
+    # Add a mined security event block
+    block_res = test_bc.add_security_block(
+        "PROMPT_INJECTION",
+        {"threat_type": "PROMPT_INJECTION", "risk_score": 92, "decision": "BLOCKED", "reason": "Test block"}
+    )
+    test("Mined block appended to chain", len(test_bc.chain) == 2)
+    test("Mined block hash has PoW prefix '00'", block_res.hash.startswith("00"))
+    test("Mined block links to previous hash", block_res.previous_hash == test_bc.chain[0].hash)
+    
+    is_valid, _, _ = test_bc.validate_chain()
+    test("Blockchain cryptographic validation passes", is_valid is True)
+    
+    # Simulate tampering
+    tamper_res = test_bc.simulate_tamper(1)
+    test("Tamper simulation drops chain validity to False", tamper_res["chain_valid"] is False)
+    test("Tamper simulation identifies invalid block", tamper_res["invalid_block_index"] == 1)
+    
+    # Restore chain
+    restore_res = test_bc.restore_chain()
+    test("Restored chain passes cryptographic validation", restore_res["chain_valid"] is True)
+
+    # ── 13. Post-Quantum Cryptography (ML-KEM / Kyber-512) ────────
+    print("\n--- Section 13: Post-Quantum Cryptography (Kyber-512) ---")
+    from quantum_crypto import generate_kyber_keypair, encapsulate_shared_secret, perform_hybrid_pqxdh_handshake
+    
+    kyber_keys = generate_kyber_keypair()
+    test("ML-KEM-512 keypair generated", "public_key" in kyber_keys and "private_key" in kyber_keys)
+    test("Kyber public key contains lattice prefix", "pk_kyber512" in kyber_keys["public_key"])
+    
+    encap = encapsulate_shared_secret(kyber_keys["public_key"])
+    test("Lattice ciphertext capsule generated", "capsule_kyber512" in encap["ciphertext_capsule"])
+    test("256-bit symmetric shared secret derived", len(encap["kyber_shared_secret"]) == 64) # 32 bytes in hex = 64 chars
+    
+    handshake = perform_hybrid_pqxdh_handshake(["Alice", "Bob"])
+    test("Hybrid PQXDH handshake completed", handshake["quantum_status"] == "QUANTUM_RESISTANT")
+    test("Hybrid derived AES-256 session key generated", "aes256_gcm" in handshake["keys"]["hybrid_derived_session_key"])
+    test("Handshake telemetry contains 5 verified steps", len(handshake["handshake_telemetry"]) == 5)
+
     # ── Summary ───────────────────────────────────────────────────
     print("\n" + "="*70)
     print(f"  TEST RESULTS: {passed}/{total} PASSED  ({failed} FAILED)")
@@ -223,3 +268,4 @@ def run_tests():
 if __name__ == "__main__":
     success = run_tests()
     sys.exit(0 if success else 1)
+

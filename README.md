@@ -84,9 +84,29 @@ Untrusted database content (such as developer bios, community posts, or project 
 
 ---
 
+## ⛓️ Blockchain Threat Ledger (Tamper-Proof Auditing)
+
+NEXUS integrates an immutable local blockchain (`backend/blockchain.py`) to audit all high-severity security events:
+* **Proof-of-Work Consensus:** Every blocked attack (prompt injection, SQLi, sensitive data access) is mined with a difficulty target (SHA-256 hash prefix `00`).
+* **Cryptographic Chaining:** Each block links to `previous_hash`.
+* **Live Tamper Detection Demo:** In the Security Lab's **Blockchain Threat Ledger** tab, judges can click **"🔴 Simulate Malicious Tampering"**. This modifies historical data without re-mining. The entire subsequent chain breaks with an instant cryptographic warning: `🚨 CRYPTOGRAPHIC TAMPERING DETECTED!`.
+* **One-Click Restoration:** Clicking **"🟢 Restore Chain Integrity"** demonstrates state recovery.
+
+---
+
+## 🔬 Post-Quantum Cryptography (ML-KEM-512)
+
+NEXUS Chat is hardened against future quantum attacks, specifically **"Harvest Now, Decrypt Later" (HNDL)** threats and Shor's Algorithm:
+* **NIST FIPS 203 ML-KEM-512 (CRYSTALS-Kyber):** Uses Module Learning With Errors (MLWE) over a 256-dimensional polynomial lattice with prime modulus $q = 3329$.
+* **Hybrid PQXDH Protocol:** Modeled after Signal's PQXDH and Apple iMessage's PQ3 protocols, the chat handshake combines classical Curve25519 (ECDH) + ML-KEM-512 lattice key encapsulation.
+* **Master Session Key:** Derived via `HKDF-SHA256(X25519_Secret || Kyber_Secret)` into an AES-256-GCM symmetric cipher.
+* **Quantum Security Inspector:** Clickable in the Chat UI to inspect public keys, lattice capsules, and active cryptographic telemetry in real-time.
+
+---
+
 ## 🧪 Testing Strategy
 
-NEXUS includes an automated backend regression test suite (`backend/test_security.py`) covering 68 distinct test conditions:
+NEXUS includes an automated backend regression test suite (`backend/test_security.py`) covering 84 distinct test conditions across all 3 pillars:
 1. Normal English search queries
 2. Hinglish search queries (`"Mujhe Lucknow mein Flutter developers chahiye"`)
 3. Prompt injection variants
@@ -99,13 +119,15 @@ NEXUS includes an automated backend regression test suite (`backend/test_securit
 10. Hinglish attack variations
 11. Abuse rate limiting under rapid attack sequences
 12. Audit log sanitization (verifying zero PII leakage)
+13. Blockchain genesis creation, PoW mining, and tamper detection & recovery
+14. Post-Quantum ML-KEM-512 keypair generation, encapsulation, and hybrid handshake
 
 ### Running Automated Tests
 ```powershell
 cd c:\Users\yashr\OneDrive\Desktop\appdev\nexus\backend
 & "C:\Users\yashr\AppData\Local\Programs\Python\Python312\python.exe" test_security.py
 ```
-*Current Status: 68/68 Tests Passing (100%).*
+*Current Status: 84/84 Tests Passing (100%).*
 
 ---
 

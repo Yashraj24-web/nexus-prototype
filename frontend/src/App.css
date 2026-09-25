@@ -524,6 +524,151 @@ body {
 /* ── Empty ─────────────────────────────────────────────── */
 .empty-msg { color: #6b6b7b; font-size: .88rem; }
 
+/* ── Blockchain Threat Ledger & Tamper Demo ────────────── */
+.blockchain-section { margin-bottom: 1.5rem; }
+.bc-header-card {
+  display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;
+  margin-bottom: 1rem; flex-wrap: wrap;
+}
+.bc-header-info { flex: 1; min-width: 280px; }
+.bc-status-badge { margin-bottom: .4rem; }
+.bc-badge-ok {
+  background: #064e3b; color: #6ee7b7; font-size: .75rem; font-weight: 800;
+  padding: .25rem .75rem; border-radius: 999px; border: 1px solid #047857;
+}
+.bc-badge-tampered {
+  background: #7f1d1d; color: #fca5a5; font-size: .75rem; font-weight: 800;
+  padding: .25rem .75rem; border-radius: 999px; border: 1px solid #991b1b;
+  animation: pulse-red 1s infinite alternate;
+}
+@keyframes pulse-red {
+  from { box-shadow: 0 0 5px #ef4444; }
+  to { box-shadow: 0 0 15px #ef4444; }
+}
+.bc-header-info h3 { font-size: 1.1rem; color: #f4f4f5; margin-bottom: .25rem; font-weight: 700; }
+.bc-subtext { font-size: .78rem; color: #9ca3af; line-height: 1.45; }
+.bc-controls { display: flex; gap: .5rem; flex-wrap: wrap; }
+.btn-danger { background: #b91c1c; color: #fff; }
+.btn-danger:hover { background: #991b1b; }
+.btn-success { background: #047857; color: #fff; }
+.btn-success:hover { background: #065f46; }
+.bc-action-alert {
+  padding: .75rem 1rem; border-radius: 8px; font-size: .82rem; font-weight: 600;
+  margin-bottom: 1rem;
+}
+.alert-success { background: #064e3b33; border: 1px solid #047857; color: #6ee7b7; }
+.alert-danger { background: #7f1d1d33; border: 1px solid #b91c1c; color: #fca5a5; }
+
+.blocks-chain-container {
+  display: flex; flex-direction: column; gap: .5rem;
+}
+.block-wrapper { display: flex; flex-direction: column; align-items: center; }
+.block-card {
+  width: 100%; background: #13141f; border: 1px solid #222336; border-radius: 12px;
+  padding: 1rem 1.25rem; position: relative; transition: all .2s;
+}
+.block-card--valid { border-left: 5px solid #10b981; }
+.block-card--tampered {
+  border: 2px solid #ef4444; border-left: 6px solid #ef4444; background: #200f12;
+  box-shadow: 0 0 20px rgba(239, 68, 68, .2);
+}
+.block-card--invalid { border-left: 5px solid #f97316; background: #1a1413; }
+.block-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: .6rem; }
+.block-num { font-size: .88rem; font-weight: 800; color: #f4f4f5; font-family: monospace; }
+.block-event-pill { font-size: .68rem; font-weight: 700; padding: .18rem .5rem; border-radius: 4px; font-family: monospace; }
+.b-genesis { background: #1e1b4b; color: #a5b4fc; border: 1px solid #3730a3; }
+.b-event { background: #7f1d1d33; color: #fca5a5; border: 1px solid #991b1b; }
+.block-hash-row { display: flex; gap: .5rem; font-size: .75rem; margin-bottom: .3rem; align-items: center; }
+.bh-label { color: #828292; font-weight: 700; font-family: monospace; min-width: 45px; }
+.bh-code { color: #e4e4e7; background: #0c0d14; padding: .15rem .4rem; border-radius: 4px; font-family: monospace; font-size: .72rem; }
+.block-meta-row { display: flex; gap: .5rem; font-size: .7rem; color: #828292; margin: .4rem 0 .6rem; }
+.block-meta-row code { color: #34d399; font-weight: 600; }
+.block-data-box { background: #0c0d14; border: 1px solid #1a1b2a; border-radius: 8px; padding: .6rem .8rem; }
+.block-data-box strong { font-size: .7rem; color: #828292; text-transform: uppercase; display: block; margin-bottom: .25rem; }
+.block-data-box pre { font-size: .7rem; color: #cbd5e1; margin: 0; padding: 0; background: transparent; border: none; }
+
+.chain-link-arrow {
+  margin: .4rem 0; font-size: .7rem; font-weight: 800; font-family: monospace;
+  padding: .2rem .75rem; border-radius: 999px;
+}
+.chain-intact { color: #10b981; background: #064e3b33; border: 1px solid #047857; }
+.chain-broken {
+  color: #ef4444; background: #7f1d1d44; border: 1px dashed #ef4444;
+  animation: shake 0.5s infinite alternate;
+}
+@keyframes shake { from { transform: translateX(-2px); } to { transform: translateX(2px); } }
+
+/* ── Quantum Cryptography & Chat Handshake ──────────────── */
+.quantum-handshake-screen {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; text-align: center; padding: 2rem;
+}
+.q-spinner {
+  width: 44px; height: 44px; border: 3px solid #1e1b4b; border-top-color: #06b6d4;
+  border-radius: 50%; animation: spin .8s linear infinite; margin-bottom: 1rem;
+}
+.quantum-handshake-screen h2 { font-size: 1.3rem; color: #f4f4f5; margin-bottom: .3rem; font-weight: 800; }
+.q-subtitle { font-size: .8rem; color: #818cf8; margin-bottom: 1.5rem; }
+.handshake-steps-list {
+  display: flex; flex-direction: column; gap: .5rem; width: 100%; max-width: 480px; text-align: left;
+}
+.hs-step {
+  display: flex; align-items: center; gap: .6rem; padding: .55rem .85rem;
+  background: #14151e; border: 1px solid #1e1f2a; border-radius: 8px;
+  font-size: .78rem; color: #6b6b7b; transition: all .2s;
+}
+.hs-step--done { border-color: #06b6d4; background: #0c1b24; color: #e4e4e7; font-weight: 600; }
+.hs-step--done .hs-icon { color: #06b6d4; font-weight: 800; }
+
+.chat-badges-row { display: flex; align-items: center; gap: .5rem; }
+.quantum-badge-btn {
+  display: inline-flex; align-items: center; gap: .4rem; background: #0f1c24;
+  border: 1px solid #0891b2; color: #67e8f9; padding: .2rem .6rem;
+  border-radius: 6px; font-size: .72rem; font-weight: 700; cursor: pointer;
+  transition: all .15s;
+}
+.quantum-badge-btn:hover { background: #155e75; color: #fff; }
+.q-pulse-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: #06b6d4;
+  animation: pulse-dot 1s infinite alternate;
+}
+@keyframes pulse-dot { from { opacity: .4; } to { opacity: 1; transform: scale(1.2); } }
+.btn-inspector { margin-top: .5rem; width: 100%; border-color: #0891b2; color: #67e8f9; }
+.btn-inspector:hover { background: #0e303d; border-color: #06b6d4; color: #fff; }
+
+/* ── Quantum Inspector Modal ──────────────────────────── */
+.modal--wide { max-width: 620px; text-align: left; }
+.q-modal-header { display: flex; align-items: center; gap: .5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.q-modal-header h2 { font-size: 1.1rem; color: #f4f4f5; margin: 0; font-weight: 800; }
+.q-modal-icon { font-size: 1.4rem; }
+.pqc-status-pill {
+  font-size: .65rem; font-weight: 800; color: #67e8f9; background: #0e2a36;
+  border: 1px solid #0891b2; padding: .2rem .5rem; border-radius: 999px; margin-left: auto;
+}
+.q-modal-body { display: flex; flex-direction: column; gap: .85rem; }
+.q-param-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; }
+.q-param-card {
+  background: #141522; border: 1px solid #202138; padding: .55rem .75rem; border-radius: 8px;
+}
+.q-param-card strong { display: block; font-size: .65rem; color: #828292; text-transform: uppercase; }
+.q-param-card p { font-size: .78rem; font-weight: 700; color: #a5b4fc; margin-top: .15rem; }
+.q-keys-box {
+  background: #0d0f17; border: 1px solid #1a1c2c; border-radius: 8px; padding: .75rem .9rem;
+}
+.q-keys-box h4 { font-size: .78rem; color: #e4e4e7; margin-bottom: .45rem; font-weight: 700; }
+.q-key-row {
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: .7rem; padding: .25rem 0; border-bottom: 1px solid #161824;
+}
+.q-key-row span { color: #828292; }
+.q-key-row code { color: #e4e4e7; font-family: monospace; font-size: .68rem; }
+.q-key-session { color: #34d399 !important; font-weight: 700; }
+.q-hndl-explainer {
+  background: #151624; border: 1px solid #272844; border-radius: 8px;
+  padding: .65rem .85rem; font-size: .73rem; line-height: 1.45; color: #a1a1aa;
+}
+.q-hndl-explainer strong { color: #c7d2fe; display: block; margin-bottom: .2rem; }
+
 /* ── Responsive ───────────────────────────────────────── */
 @media (max-width: 768px) {
   .topnav-inner { padding: 0 1rem; }
